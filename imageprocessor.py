@@ -10,7 +10,7 @@ import os
 
 class AsciiImageProcessor:
     class Characters:
-        HIGH_DETAIL: str = " .'^,:;Il!i><~+-?][}{1)(|\/tfjrxnuvczXYJCLQ0OZmwqpdbkhao*&#MW8%B$@"
+        HIGH_DETAIL: str = " .'^,:;Il!i><~+-?][}{1)(|\\/tfjrxnuvczXYJCLQ0OZmwqpdbkhao*&#MW8%B$@"
         MEDIUM_DETAIL: str = " .:-=+*#%@"
         LOW_DETAIL: str = " .-=#@"
         NUMBERS: str = "0123456789"
