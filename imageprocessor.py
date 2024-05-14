@@ -1,5 +1,5 @@
 # author: Giorgio
-# date: 13.05.2024
+# date: 14.05.2024
 # topic: ascii art
 # repo: https://github.com/Giooorgiooo/Ascii-Image-Processor
 
@@ -10,14 +10,14 @@ import os
 
 class AsciiImageProcessor:
     class Characters:
-        # Long list of characters ordered by intensity
-        LONG: str = "`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"
-        # Short list of characters for simpler representation
-        SHORT: str = " .:-=+*#%@"
-        # Default list of characters for ASCII conversion
-        DEFAULT: str = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-    
-    def __init__(self, font_path: str = str(os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")+"/consolas.ttf") , font_size: int = 16, characters: str = Characters.DEFAULT, colored: bool = False) -> None:
+        HIGH_DETAIL: str = " .'^,:;Il!i><~+-?][}{1)(|\/tfjrxnuvczXYJCLQ0OZmwqpdbkhao*&#MW8%B$@"
+        MEDIUM_DETAIL: str = " .:-=+*#%@"
+        LOW_DETAIL: str = " .-=#@"
+        NUMBERS: str = "0123456789"
+        BLOCKS: str = "-|]["
+        BINARY: str = "10"
+
+    def __init__(self, font_path: str = str(os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")+"/consolas.ttf") , font_size: int = 16, characters: str = Characters.MEDIUM_DETAIL) -> None:
         """
         Initialize AsciiImageProcessor.
 
