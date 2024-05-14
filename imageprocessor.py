@@ -148,9 +148,9 @@ class AsciiImageProcessor:
                     h, s, v = rgb_to_hsv(pixel[0] / 255, pixel[1] / 255, pixel[2] / 255)
                     r, g, b = hsv_to_rgb(h, s, 1)
                     # Append character and pixel color to the row
-                    row.append(character, (int(r * 255), int(g * 255), int(b * 255)))
+                    row.append((character, (int(r * 255), int(g * 255), int(b * 255))))
                 else:
-                    row.append(character, (255, 255, 255))
+                    row.append((character, (255, 255, 255)))
 
             rows.append(row)
 
