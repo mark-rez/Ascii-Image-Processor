@@ -5,6 +5,7 @@
 
 from PIL import Image, ImageFont, ImageDraw, UnidentifiedImageError
 from pathlib import Path
+from colorsys import hsv_to_rgb, rgb_to_hsv
 import os
 
 class AsciiImageProcessor:
@@ -141,8 +142,16 @@ class AsciiImageProcessor:
                 darkness: float = (pixel[0] + pixel[1] + pixel[2]) / 765
                 # Choose appropriate character based on darkness
                 character: str = self.characters[int(darkness * len(self.characters)) - 1]
-                # Append character and pixel color to the row
-                row.append((character, (pixel[0], pixel[1], pixel[2]) if colored else (255, 255, 255)))
+                
+                if colored:
+                    # set brightness of color to 100% since the char handles the density/brightness of a pixel
+                    h, s, v = rgb_to_hsv(pixel[0] / 255, pixel[1] / 255, pixel[2] / 255)
+                    r, g, b = hsv_to_rgb(h, s, 1)
+                    # Append character and pixel color to the row
+                    row.append(character, (int(r * 255), int(g * 255), int(b * 255)))
+                else:
+                    row.append(character, (255, 255, 255))
+
             rows.append(row)
 
         # Create a new image for ASCII art
