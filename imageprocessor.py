@@ -86,7 +86,7 @@ class AsciiImageProcessor:
             tuple[int, int, int]: Average RGB value of the group of pixels.
         """
         image_width, image_height = image.size
-        average_pixel: list[int] = [0, 0, 0]
+        average_pixel: list[int] = [0, 0, 0, 0]
 
         rows, cols = self._get_char_size()
 
@@ -98,10 +98,10 @@ class AsciiImageProcessor:
                     pixel = image.getpixel((root_x + offset_x, root_y + offset_y))
                     
                     # Accumulate RGB values
-                    for i in range(3):
+                    for i in range(4):
                         average_pixel[i] += pixel[i] / (rows * cols)
 
-        return round(average_pixel[0]), round(average_pixel[1]), round(average_pixel[2])
+        return round(average_pixel[0]), round(average_pixel[1]), round(average_pixel[2]), round(average_pixel[3])
 
     def get_ascii_img(self, path: str, colored: bool = False, char_per_pixel: bool = False) -> Image:
         """
@@ -121,6 +121,10 @@ class AsciiImageProcessor:
         try:
             # Open an image
             original_image: Image = Image.open(path)
+
+            if original_image.mode != 'RGBA':
+                original_image = original_image.convert('RGBA')
+            
         except UnidentifiedImageError:
             raise UnidentifiedImageError(f"Cannot identify file '{path}' as an image.")
 
@@ -139,9 +143,10 @@ class AsciiImageProcessor:
             for x in range(0, original_image_width, step_x):
                 pixel = original_image.getpixel((x, y)) if char_per_pixel else self._get_grouped_pixel(original_image, x, y) 
                 # Calculate darkness based on average intensity of RGB values
-                darkness: float = (pixel[0] + pixel[1] + pixel[2]) / 765
+                brightness: float = (pixel[0] + pixel[1] + pixel[2]) / 765 if pixel[3] == 255 else pixel[3]/255
+                if brightness == 1: brightness = 0.99
                 # Choose appropriate character based on darkness
-                character: str = self.characters[int(darkness * len(self.characters)) - 1]
+                character: str = self.characters[int((brightness) * len(self.characters))]
                 
                 if colored:
                     # set brightness of color to 100% since the char handles the density/brightness of a pixel
